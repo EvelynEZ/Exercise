@@ -2,17 +2,42 @@ import java.io.*;
 import java.util.*;
 public class ExcelColTitle {
    public static void main(String[] args) {
-      System.out.println(convertToTitle(28));
+      int[] nums = {3, 4, 2, 3};
+      System.out.println(checkPossibility(nums));
    }
    
-   public static String convertToTitle(int n) {
-      StringBuilder sb = new StringBuilder();
-      while(n > 0) {
-         n--;
-         sb.insert(0, (char)('A' + n%26));
-         n /= 26;
+   public static boolean checkPossibility(int[] nums) {
+      if (nums.length < 1) 
+         return true;
+      int count = 0;
+      for(int i = 1; i < nums.length; i++){
+         if(nums[i] < nums[i-1]){
+            count++;
+            if(i-2 >= 0 && nums[i] < nums[i-2]){
+               nums[i] = nums[i-1];
+            } else {
+               nums[i-1] = nums[i];
+            }
+            if(count > 1) 
+               return false;
+         }
       }
-      return sb.toString();
+      return true;
    }
-
+   
+   /* 
+   //without modifying the int[].
+   public static boolean checkPossibility(int[] a) {
+        int modified = 0;
+        for (int i = 1, prev = a[0]; i < a.length; i++) {
+            if (a[i] < prev) {
+                if (modified++ > 0) return false;
+                if (i - 2 >= 0 && a[i - 2] > a[i]) continue;
+            }
+            prev = a[i];
+        }
+        return true;
+    }
+   
+   */
 }
